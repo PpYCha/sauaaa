@@ -66,18 +66,17 @@ const App = () => {
   const [loginState, dispatch] = useReducer(loginReducer, initialLoginState);
 
   const authContext = useMemo(() => ({
-    signIn: async (userName, password) => {
+    signIn: async foundUser => {
       // setUserToken('fghjk');
       // setIsLoading(false);
-      let userToken;
-      userToken = null;
-      if (userName == 'user' && password == 'pass') {
-        try {
-          userToken = 'abcd';
-          await AsyncStorage.setItem('userToken', userToken);
-        } catch (e) {
-          console.log(e);
-        }
+
+      const userToken = String(foundUser[0].userToken);
+      const userName = foundUser[0].username;
+      try {
+        userToken = 'abcd';
+        await AsyncStorage.setItem('userToken', userToken);
+      } catch (e) {
+        console.log(e);
       }
 
       dispatch({type: 'LOGIN', id: userName, token: userToken});
